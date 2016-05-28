@@ -1,0 +1,38 @@
+#include <iostream>
+#include <vector>
+struct tree{
+	int val;
+	struct tree *left;
+	struct tree *right;
+	tree(int x):val(x),left(NULL),right(NULL){};
+};
+
+int insert(struct tree **head,struct tree *newnode){
+	if(*head == NULL){
+		*head = newnode;
+		return 0;
+	}
+	if((*head)->val <newnode->val){
+		if((*head)->right)
+			insert(&(*head)->right,newnode);
+		else
+			(*head)->right = newnode;
+	}
+	else{
+		if((*head)->left)
+			insert(&(*head)->left,newnode);
+		else
+			(*head)->left = newnode;
+	}
+}
+
+struct tree* delete_node(struct tree *head,int data,struct tree *prev){
+	if(head->val == data){
+		return prev;
+	}
+	if(head->val < data && head->right)
+		delete_node(head->right,data,head);
+	if(head->val > data && head->left)
+		delete_node(head->left,data,head);
+	return NULL;		
+}
